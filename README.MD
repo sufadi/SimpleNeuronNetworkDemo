@@ -1,11 +1,11 @@
-﻿# [学习笔记]人工智能-简单神经元网络
-
-# 感知器分类算法
+﻿# 感知器分类算法
 学习笔记来源
 https://www.imooc.com/video/14376
 ### 1.算法框架
 很喜欢这个图
+
 ![算法框架](http://img.blog.csdn.net/20180114160852261?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc3U3NDk1MjA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+
 机器学习就是不断更新权重和阈值的过程
 ### 2.感知器算法适用范围
 感知器算法适用于线性分割
@@ -17,7 +17,9 @@ https://www.imooc.com/video/14376
 #### 3.1 权重向量初始化为 0
 步调函数和阈值
 权重向量W，训练样本X
+
 ![步调函数和阈值](http://img.blog.csdn.net/20180114161614080?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc3U3NDk1MjA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+
 其中W(0)是阈值的取负数，X(0) 初值 1
 W(1)....W(x)初值设置为0
 
