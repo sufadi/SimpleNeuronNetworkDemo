@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 '''
 实现感知器对象
 '''
@@ -85,3 +87,36 @@ class Perceptron(object):
             return np.where(self.net_input(x) >= 0.0, 1, 1)
             pass
         pass
+
+# 加载数据原料
+import pandas as pd
+file = "D:/EclipseProject/PythonStudyBySu/su/iris.data.csv"
+# 无文件头
+df = pd.read_csv(file, header=None)
+# 读取前面 10 行数据
+print(df.head(10))
+
+# 数据可视化展示
+import matplotlib.pyplot as plt
+import numpy as np
+
+y = df.loc[0:100, 4].values
+#print("显示第四列前100条数据", y)
+y = np.where(y == "Iris-setosa", -1, 1)
+#print("对数据进行分类", y)
+
+# 抽取出第0和2列的数据
+x = df.iloc[0:100, [0, 2]].values
+# print("抽取出第0和2列的数据", x)
+
+# 画出图形
+# x 的第一列为x轴，第二列为y轴
+# 前50条数据
+plt.scatter(x[:50, 0], x[:50, 1], color='red', marker='o', label='setosa')
+# 后50条数据
+plt.scatter(x[50:100, 0], x[50:100, 1], color='blue',
+            marker='x', label='versicolor')
+plt.xlabel("花瓣长度")
+plt.ylabel("花茎长度")
+plt.legend(loc='upper left')
+plt.show()
