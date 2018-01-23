@@ -65,28 +65,30 @@ class Perceptron(object):
                 self.w_[0] += update
 
                 # 判断错误的次数
-                errors += int[update != 0.0]
+                if(update != 0.0):
+                    errors = errors + 1
+
                 self.errors_.append(errors)
                 pass
             pass
 
-        # 神经元
-        def net_input(self, x):
-            '''
-            [公式]Z = w0 * 1 + W1*X1 + ....+ Wn * Xn 
-            '''
-            return np.dot(x, self.w_[1:]) + self.w_[0]
-            pass
-
-        # 预测函数
-        def predict(self, x):
-            # if self.net_input(x) >= 0.0:
-            #    np.where(1)
-            # else:
-            #    np.where(-1)
-            return np.where(self.net_input(x) >= 0.0, 1, 1)
-            pass
+    # 神经元
+    def net_input(self, x):
+        '''
+        [公式]Z = w0 * 1 + W1*X1 + ....+ Wn * Xn 
+        '''
+        return np.dot(x, self.w_[1:]) + self.w_[0]
         pass
+
+    # 预测函数
+    def predict(self, x):
+        # if self.net_input(x) >= 0.0:
+        #    np.where(1)
+        # else:
+        #    np.where(-1)
+        return np.where(self.net_input(x) >= 0.0, 1, 1)
+        pass
+    pass
 
 # 加载数据原料
 import pandas as pd
@@ -98,7 +100,6 @@ print(df.head(10))
 
 # 数据可视化展示
 import matplotlib.pyplot as plt
-import numpy as np
 
 y = df.loc[0:100, 4].values
 #print("显示第四列前100条数据", y)
@@ -112,11 +113,51 @@ x = df.iloc[0:100, [0, 2]].values
 # 画出图形
 # x 的第一列为x轴，第二列为y轴
 # 前50条数据
-plt.scatter(x[:50, 0], x[:50, 1], color='red', marker='o', label='setosa')
+plt.scatter(x[0:50, 0], x[0:50, 1], color='red', marker='o', label='setosa')
 # 后50条数据
 plt.scatter(x[50:100, 0], x[50:100, 1], color='blue',
             marker='x', label='versicolor')
 plt.xlabel("花瓣长度")
 plt.ylabel("花茎长度")
 plt.legend(loc='upper left')
-plt.show()
+# plt.show()
+
+ppn = Perceptron(eta=0.1, n_iter=10)
+ppn.fit(x, y)
+plt.plot(range(1, len(ppn.errors_) + 1), ppn.errors_, marker='o')
+plt.xlabel('Epochs')
+plt.ylabel("error classify count")
+# plt.show()
+
+
+from matplotlib.colors import ListedColormap
+
+
+def plot_decision_regions(x, y, classifier, resolution=0.02):
+    marker = ('s', 'x', 'o', 'v')
+    colors = ('red', 'blue', 'lightgreen', 'gray', 'cyan')
+    # y 的种类只有-1 和 1 ，根据相应的种类绘制对应的颜色
+    cmap = ListedColormap(colors[:len(np.unique(y))])
+
+    x1_min = x[:, 0].min() - 1
+    x1_max = x[:, 0].max()
+    x2_min = x[:, 1].min() - 1
+    x2_max = x[:, 1].max()
+
+    print("花瓣长度最小值 为 %s， 最大值为 %s" % (x1_min, x1_max))
+    print("花茎长度最小值 为 %s， 最大值为 %s" % (x2_min, x2_max))
+
+    # 构造向量，扩展成一个二维矩阵，resolution向量差值
+    xx1, xx2 = np.meshgrid(
+        np.arange(x1_min, x1_max, resolution), np.arange(x2_min, x2_max, resolution))
+    print("x1向量大小", np.arange(x1_min, x1_max, resolution).shape)
+    print("x1向量", np.arange(x1_min, x1_max, resolution))
+    print("x2向量大小", np.arange(x2_min, x2_max, resolution).shape)
+    print("x2向量", np.arange(x2_min, x2_max, resolution))
+
+    print("xx1 二维矩阵大小", xx1.shape)
+    print("xx1 二维矩阵", xx1)
+    print("xx2 二维矩阵大小", xx2.shape)
+    print("xx2 二维矩阵", xx2)
+
+plot_decision_regions(x, y, ppn, resolution=0.02)
